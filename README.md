@@ -1,5 +1,7 @@
 # github-unwatcher
 
+Unwatch watching repos of the organization
+
 ```
 Usage: GITHUB_ACCESS_TOKEN="..." $0
     List watched repos
