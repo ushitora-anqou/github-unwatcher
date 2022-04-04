@@ -31,7 +31,7 @@ func listWatchedRepos(client *github.Client, ctx context.Context) ([]*github.Rep
 func printWatchedRepos(client *github.Client, ctx context.Context) error {
 	watchedRepos, err := listWatchedRepos(client, ctx)
 	for i, repo := range watchedRepos {
-		fmt.Printf("%d\t%s/%s\n", i, *repo.Owner.Login, *repo.Name)
+		log.Printf("%d\t%s/%s\n", i, *repo.Owner.Login, *repo.Name)
 	}
 	return err
 }
@@ -66,23 +66,23 @@ func unwatchRepos(client *github.Client, ctx context.Context, org string) error 
 	}
 
 	if len(reposToBeUnwatched) == 0 {
-		fmt.Printf("No repos to be unwatched found\n")
+		log.Printf("No repos to be unwatched found\n")
 		return nil
 	} else {
-		fmt.Printf("Unwatching following repos:\n")
+		log.Printf("Unwatching following repos:\n")
 		for _, repo := range reposToBeUnwatched {
-			fmt.Printf("\t%s/%s\n", org, *repo.Name)
+			log.Printf("\t%s/%s\n", org, *repo.Name)
 		}
 	}
 
-	fmt.Printf("Are you sure? [y/N]: ")
+	log.Printf("Are you sure? [y/N]: ")
 	if !askYN(false) {
-		fmt.Printf("Canceled\n")
+		log.Printf("Canceled\n")
 		return nil
 	}
 
 	for _, repo := range reposToBeUnwatched {
-		fmt.Printf("Unwatching %s/%s\n", org, *repo.Name)
+		log.Printf("Unwatching %s/%s\n", org, *repo.Name)
 		_, err := client.Activity.DeleteRepositorySubscription(ctx, org, *repo.Name)
 		if err != nil {
 			return err
@@ -107,10 +107,10 @@ func main() {
 
 	var err error
 	if len(os.Args) == 1 {
-		fmt.Printf("Listing watched repos...\n")
+		log.Printf("Listing watched repos...\n")
 		err = printWatchedRepos(client, ctx)
 	} else {
-		fmt.Printf("Unwatch repos of organization %s\n", os.Args[1])
+		log.Printf("Unwatch repos of organization %s\n", os.Args[1])
 		err = unwatchRepos(client, ctx, os.Args[1])
 	}
 
