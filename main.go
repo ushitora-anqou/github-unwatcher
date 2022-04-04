@@ -65,7 +65,7 @@ func unwatchRepos(client *github.Client, ctx context.Context, org string) error 
 	}
 
 	if len(reposToBeUnwatched) == 0 {
-		fmt.Printf("No repos to be unwatched found\n")
+		fmt.Printf("No repo to be unwatched was found\n")
 		return nil
 	} else {
 		fmt.Printf("Unwatching following repos:\n")
