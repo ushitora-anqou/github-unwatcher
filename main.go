@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -104,11 +105,16 @@ func main() {
 
 	client := github.NewClient(tc)
 
+	var err error
 	if len(os.Args) == 1 {
 		fmt.Printf("Listing watched repos...\n")
-		printWatchedRepos(client, ctx)
+		err = printWatchedRepos(client, ctx)
 	} else {
 		fmt.Printf("Unwatch repos of organization %s\n", os.Args[1])
-		unwatchRepos(client, ctx, os.Args[1])
+		err = unwatchRepos(client, ctx, os.Args[1])
+	}
+
+	if err != nil {
+		log.Fatal(err)
 	}
 }
